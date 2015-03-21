@@ -12,7 +12,7 @@ Once downloaded, the script will do the following:
 5. Create a new, independent tidy data set with the average of each variable for each activity and each subject - New data set name is TidyData.txt
  
 
-##working directory set in environment
+## Set working directory (left out for security)
 ```
 datafileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 download.file(datafileUrl, destfile="ProjectData.zip", method="curl")
@@ -22,7 +22,7 @@ unzip(zipfile="ProjectData.zip")
 list.files(dataPath, recursive=TRUE)
 dataPath <- "UCI HAR Dataset"
 ```
-Set working directory to test data and create datasets
+Navigate to working directory to test data and create datasets
 ```
 setwd(file.path(dataPath, "test"))
 list.files()
@@ -32,7 +32,7 @@ data_subject_test<-read.table("subject_test.txt", header=FALSE)
 data_features_test<-read.table("x_test.txt", header=FALSE)
 data_activity_test<-read.table("y_test.txt", header=FALSE)
 ```
-Set working directory to train data and create datasets
+Navigate to working directory to train data and create datasets
 ```
 setwd("../train")
 list.files()
@@ -43,7 +43,7 @@ data_features_train <- read.table("X_train.txt", header=FALSE)
 data_activity_train <- read.table("y_train.txt", header=FALSE)
 ```
 ##  Merge data sets to create 1 data set
-#### Combine dataframes with like rows
+Combine dataframes with like rows
 ```
 dataFeatures <- rbind(data_features_train, data_features_test)
 dataSubject <- rbind(data_subject_train, data_subject_test)
@@ -61,9 +61,9 @@ dataSet <- cbind(dataSubject, dataActivity, dataFeatures)
 ```
 
 ## Get subset of data column names for std() or mean()
-#### Use grep() to find matching column names
-#### http://www.freeformatter.com/regex-tester.html
-#### Learn the hard way that R uses \\ rather than \ to escape
+Use grep() to find matching column names
+http://www.freeformatter.com/regex-tester.html
+Learn the hard way that R uses \\ rather than \ to escape
 ```
 dataSubsetNames <- dataFeaturesNames$V2[grep("mean\\(\\)|std\\(\\)", dataFeaturesNames$V2)]
 dataSubsetNames <- as.character(dataSubsetNames)
@@ -72,12 +72,12 @@ dataSubsetNames <- c(dataSubsetNames, "Subject", "Activity")
 dataSubset <- subset(dataSet,select=dataSubsetNames)
 ```
 ## Update descriptive activity names to rename columns
-#### prefix t = Time (noted in features_info.txt)
-#### prefix f = Frequency (noted in features_info.txt)
-#### Acc = Acceleration (noted in features_info.txt)
-#### Gyro = Gyroscope (noted in features_info.txt)
-#### Jerk = Leave as is
-#### Mag = Magnitude (noted in features_info.txt)
+prefix t = Time (noted in features_info.txt)
+prefix f = Frequency (noted in features_info.txt)
+Acc = Acceleration (noted in features_info.txt)
+Gyro = Gyroscope (noted in features_info.txt)
+Jerk = Leave as is
+Mag = Magnitude (noted in features_info.txt)
 ```
 names(dataSubset) <- gsub("^t", "Time", names(dataSubset))
 names(dataSubset) <- gsub("^f", "Frequency", names(dataSubset))
